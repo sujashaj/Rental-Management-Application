@@ -1,28 +1,31 @@
-import Tab from 'react-bootstrap/Tab';
+import React from 'react';
 import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
+import { AddRentals } from './AddRentals';
+import { ViewRentals } from './ViewRentals';
 
 function NavigationPanel() {
   return (
     <div>
-     <Navbar className="bg-body-tertiary" data-bs-theme="dark">
-        <Container className="justify-content-center">
-          <Navbar.Brand>Rental Management Application</Navbar.Brand>
-        </Container>
-     </Navbar>
-    <Tabs
-      defaultActiveKey="profile"
-      id="uncontrolled-tab-example"
-      className="mb-3"
-    >
-      <Tab eventKey="home" title="Add Rentals">
-      </Tab>
-      <Tab eventKey="profile" title="View Rentals">
-      </Tab>
-      <Tab eventKey="contact" title="Get rental summary">
-      </Tab>
-    </Tabs>
+      
+
+      <Tabs
+        defaultActiveKey="profile"
+        id="uncontrolled-tab-example"
+        className="mb-3"
+      >
+        <Tab eventKey="home" title="Add Rentals">
+          <AddRentals />
+        </Tab>
+        <Tab eventKey="profile" title="View Rentals">
+          <ViewRentals />
+        </Tab>
+        <Tab eventKey="contact" title="Get rental summary">
+          {/* Content for the 'Get rental summary' tab goes here */}
+        </Tab>
+      </Tabs>
     </div>
   );
 }
