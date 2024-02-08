@@ -1,10 +1,8 @@
+// SortableTable.js
 import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
-
 const SortableTable = ({ data, columns }) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-  const [activeColumn, setActiveColumn] = useState(null);
-
   const handleSort = (key) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -12,7 +10,6 @@ const SortableTable = ({ data, columns }) => {
     }
     setSortConfig({ key, direction });
   };
-
   const sortedData = [...data].sort((a, b) => {
     if (sortConfig.key !== null) {
       if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -24,7 +21,6 @@ const SortableTable = ({ data, columns }) => {
     }
     return 0;
   });
-
   return (
     <Table striped bordered hover>
       <thead>
@@ -34,13 +30,7 @@ const SortableTable = ({ data, columns }) => {
             <th
               key={column.key}
               onClick={() => column.sortable && handleSort(column.key)}
-              className={`${activeColumn === column.key ? 'table-active' : ''} ${column.sortable ? 'sortable' : ''}`}
-              onMouseEnter={() => setActiveColumn(column.key)}
-              onMouseLeave={() => setActiveColumn(null)}
-              data-toggle="tooltip"
-              data-placement="top"
-              data-title={`Sort by ${column.label}`}
-              data-delay='{"show": 0, "hide": 0}'
+              className={column.sortable ? 'sortable' : ''}
             >
               {column.label}
               {column.sortable && (
@@ -72,5 +62,4 @@ const SortableTable = ({ data, columns }) => {
     </Table>
   );
 };
-
 export { SortableTable };
