@@ -1,3 +1,4 @@
+// AddProperty.js
 import React, { useState } from 'react';
 import { useRentalContext } from '../context/RentalContext';
 import Form from 'react-bootstrap/Form';
@@ -11,20 +12,6 @@ const AddRentals = () => {
   const [rentalAddress, setRentalAddress] = useState('');
   const [renterName, setRenterName] = useState('');
   const [rentAmount, setRentAmount] = useState('');
-
-  const [isHovering, setIsHovering] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsHovering(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-  };
-
-  const style = {
-    backgroundColor: isHovering ? "yellow" : "white",
-  };
 
 //  const handleAddProperty = () => {
 //    state({ type: 'ADD_PROPERTY', payload: { name: propertyName } });
@@ -42,8 +29,8 @@ const AddRentals = () => {
   };
 
   return (
-    <Container className="mt-1 mb-3">
-      <Form onSubmit={handleSubmit} className="p-5 m-5 border rounded shadow">
+    <Container>
+      <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="rentalName">
             <Form.Label>Name of Rental</Form.Label>
             <Form.Control size="sm" type="text" value={rentalName} onChange={(event) => setRentalName(event.target.value)}/>
@@ -67,5 +54,4 @@ const AddRentals = () => {
     </Container>
   );
 };
-
 export { AddRentals };
