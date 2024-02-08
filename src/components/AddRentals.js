@@ -13,10 +13,19 @@ const AddRentals = () => {
   const [renterName, setRenterName] = useState('');
   const [rentAmount, setRentAmount] = useState('');
 
-//  const handleAddProperty = () => {
-//    state({ type: 'ADD_PROPERTY', payload: { name: propertyName } });
-//    setPropertyName('');
-//  };
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
+
+  const style = {
+    backgroundColor: isHovering ? "yellow" : "white",
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -29,8 +38,8 @@ const AddRentals = () => {
   };
 
   return (
-    <Container>
-      <Form onSubmit={handleSubmit}>
+    <Container className="mt-1 mb-3">
+      <Form onSubmit={handleSubmit} className="p-5 m-5 border rounded shadow">
           <Form.Group className="mb-3" controlId="rentalName">
             <Form.Label>Name of Rental</Form.Label>
             <Form.Control size="sm" type="text" value={rentalName} onChange={(event) => setRentalName(event.target.value)}/>
