@@ -1,73 +1,238 @@
 // SortableTable.js
 import React, { useState } from 'react';
-import Table from 'react-bootstrap/Table';
-const SortableTable = ({ data, columns }) => {
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-  const [activeColumn, setActiveColumn] = useState(null);
+import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import Paper from '@mui/material/Paper';
+import { visuallyHidden } from '@mui/utils';
+import { Container } from '@mui/material';
 
-  const handleSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
-    }
-    setSortConfig({ key, direction });
+function createData(id, rentalName, rentalAddress, renterName, rentAmount) {
+  return {
+    id,
+    rentalName,
+    rentalAddress,
+    renterName,
+    rentAmount
   };
-  const sortedData = [...data].sort((a, b) => {
-    if (sortConfig.key !== null) {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? -1 : 1;
-      }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? 1 : -1;
-      }
+}
+
+const rows = [
+  createData(1, 'Griffis', '2415 Western Ave Apt 507', 'Sachin', 1200),
+  createData(2, 'Griffis', '2415 Western Ave Apt 507', 'Suja', 1200),
+  createData(3, 'Eclair', 'Street Address', 16.0, 24),
+  createData(4, 'Frozen yoghurt', 'Street Address', 6.0, 24),
+  createData(5, 'Gingerbread', 'Street Address', 16.0, 49),
+  createData(6, 'Honeycomb', 'Street Address', 3.2, 87),
+  createData(7, 'Ice cream sandwich', 'Street Address', 9.0, 37),
+  createData(8, 'Jelly Bean', 'Street Address', 0.0, 94),
+  createData(9, 'KitKat', 'Street Address', 26.0, 65),
+  createData(10, 'Lollipop', 'Street Address', 0.2, 98),
+  createData(11, 'Marshmallow', 'Street Address', 0, 81),
+  createData(12, 'Nougat', 'Street Address', 19.0, 9),
+  createData(13, 'Oreo', 'Street Address', 18.0, 63),
+];
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
     }
-    return 0;
+    return a[1] - b[1];
   });
+  return stabilizedThis.map((el) => el[0]);
+}
+
+const headCells = [
+  {
+    id: 'rentalName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Rental Name',
+  },
+  {
+    id: 'rentalAddress',
+    numeric: false,
+    disablePadding: false,
+    label: 'Rental Address',
+  },
+  {
+    id: 'renterName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Renter Name',
+  },
+  {
+    id: 'rentAmount',
+    numeric: true,
+    disablePadding: false,
+    label: 'Renter Amount',
+  }
+];
+
+function EnhancedTableHead(props) {
+  const { order, orderBy, rowCount, onRequestSort } =
+    props;
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
+
   return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>#</th>
-          {columns.map((column) => (
-            <th
-              key={column.key}
-              onClick={() => column.sortable && handleSort(column.key)}
-              className={`${activeColumn === column.key ? 'table-active' : ''} ${column.sortable ? 'sortable' : ''}`}
-              onMouseEnter={() => setActiveColumn(column.key)}
-              onMouseLeave={() => setActiveColumn(null)}
-              data-toggle="tooltip"
-              data-placement="top"
-              data-title={`Sort by ${column.label}`}
-              data-delay='{"show": 0, "hide": 0}'
+    <TableHead>
+      <TableRow>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align={headCell.numeric ? 'right' : 'left'}
+            padding={headCell.disablePadding ? 'none' : 'normal'}
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : 'asc'}
+              onClick={createSortHandler(headCell.id)}
             >
-              {column.label}
-              {column.sortable && (
-                <span>
-                <i className={`ml-1 ${(sortConfig.key === column.key) && sortConfig.direction === 'asc' ?
-                    'text-primary' : 'text-secondary'}`}>
-                    <span>↑</span>
-                </i>
-                <i className={`ml-1 ${(sortConfig.key === column.key) && sortConfig.direction === 'desc' ?
-                    'text-primary' : 'text-secondary'}`}>
-                    <span>↓</span>
-                </i>
-                </span>
-              )}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {sortedData.map((row, index) => (
-          <tr key={index}>
-            <td>{index + 1}</td>
-            {columns.map((column) => (
-              <td key={column.key}>{row[column.key]}</td>
-            ))}
-          </tr>
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </Box>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
         ))}
-      </tbody>
-    </Table>
+      </TableRow>
+    </TableHead>
   );
+}
+
+EnhancedTableHead.propTypes = {
+  onRequestSort: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
 };
-export { SortableTable };
+
+export default function SortableTable() {
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('calories');
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+  const visibleRows = React.useMemo(
+    () =>
+      stableSort(rows, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage,
+      ),
+    [order, orderBy, page, rowsPerPage],
+  );
+
+  return (
+    <Container maxWidth="md">
+    <Box sx={{ width: '100%', marginTop: 3 }}>
+      <Paper sx={{ width: '100%', mb: 2 }}>
+        <TableContainer>
+          <Table
+            sx={{ minWidth: 750 }}
+            aria-labelledby="tableTitle"
+            size='small'
+          >
+            <EnhancedTableHead
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+              rowCount={rows.length}
+            />
+            <TableBody>
+              {visibleRows.map((row, index) => {
+
+                return (
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.id}
+                  >
+                    <TableCell
+                      component="th"
+                      scope="row"
+                    >
+                      {row.rentalName}
+                    </TableCell>
+                    <TableCell>{row.rentalAddress}</TableCell>
+                    <TableCell>{row.renterName}</TableCell>
+                    <TableCell align="right">{row.rentAmount}</TableCell>
+                  </TableRow>
+                );
+              })}
+              {emptyRows > 0 && (
+                <TableRow
+                  style={{
+                    height: (33) * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </Box>
+    </Container>
+  );
+}

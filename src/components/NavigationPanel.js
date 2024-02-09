@@ -3,6 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import SortableTable from './SortableTable';
 import { AddRentals } from './AddRentals';
 
 const defaultTheme = createTheme({
@@ -37,9 +38,8 @@ export default function NavigationPanel() {
         <Tab label="Get Rental Summary" sx={{ textTransform: "none", minHeight: '36px', height: '36px' }} />
       </Tabs>
 
-      { value === 0 && (<AddRentals></AddRentals>)
-        
-      }
+      { value === 0 && (<AddRentals></AddRentals>) }
+      { value === 1 && (<SortableTable></SortableTable>) }
 
     </Box>
     </ThemeProvider>
