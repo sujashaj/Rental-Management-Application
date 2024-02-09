@@ -24,18 +24,22 @@ const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const formData = {
-        username: data.get('firstName'),
-        password: data.get('password'),
+        firstName: data.get('firstName'),
+        lastName: data.get('lastName'),
+        email: data.get('email'),
+        password: data.get('password')
     };
 
     console.log({
-        username: data.get('firstName'),
-        password: data.get('password'),
-      });
+        firstName: data.get('firstName'),
+        lastName: data.get('lastName'),
+        email: data.get('email'),
+        password: data.get('password')
+    });
 
     // You can post the data to the desired endpoint here
     try {
-        const response = await fetch('http://localhost:5000/login', {
+        const response = await fetch('http://localhost:5000/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

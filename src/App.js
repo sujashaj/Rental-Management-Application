@@ -14,9 +14,9 @@ function App() {
       <RentalProvider>
         <AppHeader/>
         <Routes>
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/signIn" element={<SignIn />} />
-          <Route path="/addRentals" element={<AddRentals />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/addrentals" element={<AddRentals />} />
           <Route path="/dashboard" element={<NavigationPanel />} />
         </Routes>
       </RentalProvider>

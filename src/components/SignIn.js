@@ -42,7 +42,7 @@ function SignIn() {
 
     // You can post the data to the desired endpoint here
     try {
-        const response = await fetch('http://localhost:5000/login', {
+        const response = await fetch('http://localhost:5000/signin', {
         method: 'POST',
         'credentials': 'include',
         headers: {
