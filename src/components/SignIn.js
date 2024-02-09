@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -22,13 +23,50 @@ const defaultTheme = createTheme({
 });
 
 function SignIn() {
-  const handleSubmit = (event) => {
+
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const formData = {
+        email: data.get('email'),
+        password: data.get('password'),
+    };
+
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+        email: data.get('email'),
+        password: data.get('password'),
+      });
+
+    // You can post the data to the desired endpoint here
+    try {
+        const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        'credentials': 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+        });
+
+        const responseData = await response.json(); 
+        if (response.ok) {
+            console.log('Login successful!');
+            console.log(responseData);
+        // Redirect or handle successful login here
+        navigate('/dashboard');
+        } else {
+        console.error('Login failed.');
+        // Handle login failure
+
+
+        }
+    } catch (error) {
+        console.error('Error logging in:', error);
+        // Handle error
+    }
   };
 
   return (
