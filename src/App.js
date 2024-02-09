@@ -1,19 +1,24 @@
-import './App.css';
-import { NavigationPanel } from './components/NavigationPanel';
-
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RentalProvider } from './context/RentalContext';
+import { AddRentals } from './components/AddRentals';
 import SignUp from './components/SignUp';
-// import { RentalProvider } from './context/RentalContext';
+import AppHeader from './components/AppHeader';
 
 function App() {
 
   return (
-    
-    <SignUp />
+    <BrowserRouter>
+      <RentalProvider>
+        <AppHeader/>
+        <Routes>
+          <Route path="/" element={<SignUp />} />
+          <Route path="/addRentals" element={<AddRentals />} />
+        </Routes>
+      </RentalProvider>
+    </BrowserRouter>
   );
 }
-
-
 export default App;
 
 
