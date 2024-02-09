@@ -31,9 +31,7 @@ export default function NavigationPanel() {
         role="navigation"
         sx={{ minHeight: '36px', height: '36px' }}
       >
-        <Tab label="Add Rentals" sx={{ textTransform: "none", minHeight: '36px', height: '36px' }}>
-          <AddRentals />
-        </Tab>
+        <Tab label="Add Rentals" sx={{ textTransform: "none", minHeight: '36px', height: '36px' }} />
         <Tab label="View Rentals" sx={{ textTransform: "none", minHeight: '36px', height: '36px' }} />
         <Tab label="Get Rental Summary" sx={{ textTransform: "none", minHeight: '36px', height: '36px' }} />
       </Tabs>
