@@ -21,10 +21,7 @@ const AddRentals = () => {
   const style = {
     backgroundColor: isHovering ? "yellow" : "white",
   };
-//  const handleAddProperty = () => {
-//    state({ type: 'ADD_PROPERTY', payload: { name: propertyName } });
-//    setPropertyName('');
-//  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setState({ type: 'ADD_RENTAL', payload:
@@ -116,29 +113,7 @@ const AddRentals = () => {
       </Box>
       </Container>
     </ThemeProvider>
-    // <Container className="mt-1 mb-3">
-    //   <Form onSubmit={handleSubmit} className="p-5 m-5 border rounded shadow">
-    //       <Form.Group className="mb-3" controlId="rentalName">
-    //         <Form.Label>Name of Rental</Form.Label>
-    //         <Form.Control size="sm" type="text" value={rentalName} onChange={(event) => setRentalName(event.target.value)}/>
-    //       </Form.Group>
-    //       <Form.Group className="mb-3" controlId="rentalAddress">
-    //         <Form.Label>Address of Rental</Form.Label>
-    //         <Form.Control size="sm" type="text" value={rentalAddress} onChange={(event) => setRentalAddress(event.target.value)}/>
-    //       </Form.Group>
-    //       <Form.Group className="mb-3" controlId="renterName">
-    //         <Form.Label>Name of Renter</Form.Label>
-    //         <Form.Control size="sm" type="text" value={renterName} onChange={(event) => setRenterName(event.target.value)}/>
-    //       </Form.Group>
-    //       <Form.Group className="mb-3" controlId="rentAmount">
-    //         <Form.Label>Rent Amount</Form.Label>
-    //         <Form.Control size="sm" type="text" value={rentAmount} onChange={(event) => setRentAmount(event.target.value)}/>
-    //       </Form.Group>
-    //       <Button variant="primary" type="submit">
-    //         Add Rental
-    //       </Button>
-    //   </Form>
-    // </Container>
+    
   );
 };
 

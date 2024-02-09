@@ -1,33 +1,47 @@
-import React from 'react';
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
+import * as React from 'react';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AddRentals } from './AddRentals';
-import { ViewRentals } from './ViewRentals';
 
-function NavigationPanel() {
+const defaultTheme = createTheme({
+  tabs: {
+    minHeight: '24px',
+    height: '24px',
+  },
+});
+
+export default function NavigationPanel() {
+  const [value, setValue] = React.useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
-    <div>
-      
-
+    <ThemeProvider theme={defaultTheme}>
+    <Box sx={{ width: '100%' }}>
       <Tabs
-        defaultActiveKey="profile"
-        id="uncontrolled-tab-example"
-        className="mb-3"
+        onChange={handleChange}
+        value={value}
+        aria-label="Tabs where selection follows focus"
+        selectionFollowsFocus
+        centered
+        role="navigation"
+        sx={{ minHeight: '36px', height: '36px' }}
       >
-        <Tab eventKey="home" title="Add Rentals">
+        <Tab label="Add Rentals" sx={{ textTransform: "none", minHeight: '36px', height: '36px' }}>
           <AddRentals />
         </Tab>
-        <Tab eventKey="profile" title="View Rentals">
-          <ViewRentals />
-        </Tab>
-        <Tab eventKey="contact" title="Get rental summary">
-          {/* Content for the 'Get rental summary' tab goes here */}
-        </Tab>
+        <Tab label="View Rentals" sx={{ textTransform: "none", minHeight: '36px', height: '36px' }} />
+        <Tab label="Get Rental Summary" sx={{ textTransform: "none", minHeight: '36px', height: '36px' }} />
       </Tabs>
-    </div>
+
+      { value === 0 && (<AddRentals></AddRentals>)
+        
+      }
+
+    </Box>
+    </ThemeProvider>
   );
 }
-
-export { NavigationPanel };
