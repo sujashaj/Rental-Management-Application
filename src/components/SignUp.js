@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useRentalContext } from '../context/RentalContext';
 
 
 const defaultTheme = createTheme({
@@ -31,15 +32,15 @@ const handleSubmit = async (event) => {
     };
 
     console.log({
-        firstName: data.get('firstName'),
-        lastName: data.get('lastName'),
-        email: data.get('email'),
-        password: data.get('password')
-    });
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      email: data.get('email'),
+      password: data.get('password')
+      });
 
     // You can post the data to the desired endpoint here
     try {
-        const response = await fetch('http://localhost:5000/signup', {
+        const response = await fetch('http://localhost:5000/signUp', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ const handleSubmit = async (event) => {
 
         const responseData = await response.json(); 
         if (response.ok) {
-            console.log('Signup successful!');
+            console.log('Sign up successful!');
             console.log(responseData);
         // Redirect or handle successful login here
         } else {
@@ -63,8 +64,19 @@ const handleSubmit = async (event) => {
 };
 
 export default function SignUp() {
+  const { state, setState } = useRentalContext();
+  const navigate = useNavigate();
 
-  return (
+  const useAuthVerified = (() => {
+    useEffect(() => {
+      if (state.isAuthorized) {
+        navigate('/dashboard');
+      }
+    }, [navigate]);
+    return state.authVerified;
+  });
+
+  return (useAuthVerified() && (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" 
       maxWidth="xs"
@@ -133,12 +145,6 @@ export default function SignUp() {
                   size='small'
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -159,5 +165,5 @@ export default function SignUp() {
         </Box>
       </Container>
     </ThemeProvider>
-  );
+  ));
 }

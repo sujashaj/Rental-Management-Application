@@ -1,5 +1,5 @@
 // SortableTable.js
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -25,31 +25,6 @@ function createData(id, rentalName, rentalAddress, renterName, rentAmount) {
 }
 
 let rows = [];
-
-try {
-  const response = await fetch('http://localhost:5000/listRentals', {
-  method: 'GET',
-  headers: {
-      'Content-Type': 'application/json',
-  },
-  });
-
-  const responseData = await response.json();
-  if (response.ok) {
-    console.log('List rentals successful!');
-    console.log(responseData);
-
-    responseData.forEach((rental, index) => {
-      rows.push(createData(index, rental.rental_name, rental.rental_address, rental.renter_name, rental.rent_amount));
-    });
-
-  } else {
-    console.error('List rentals failed.');
-  }
-} catch (error) {
-    console.error('Error listing rentals', error);
-}
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -150,6 +125,35 @@ EnhancedTableHead.propTypes = {
 };
 
 export default function SortableTable() {
+  const useAuthorized = (() => {
+    useEffect(() => {
+      // Check user authentication status
+      fetch('http://localhost:5000/listRentals', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('List rentals successful!');
+          }
+          return response.json();
+        })
+        .then(data => {
+          data.forEach((rental, index) => {
+            rows.push(createData(index, rental.rental_name, rental.rental_address, rental.renter_name, rental.rent_amount));
+          });
+        })
+        .catch(error => {
+          console.error('Error listing rentals', error);
+        });
+    }, []);
+    return true;
+  });
+
+
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [page, setPage] = React.useState(0);
@@ -183,7 +187,7 @@ export default function SortableTable() {
     [order, orderBy, page, rowsPerPage],
   );
 
-  return (
+  return (useAuthorized() &&
     <Container maxWidth="md">
     <Box sx={{ width: '100%', marginTop: 3 }}>
       <Paper sx={{ width: '100%', mb: 2 }}>

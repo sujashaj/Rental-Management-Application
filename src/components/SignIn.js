@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { useRentalContext } from '../context/RentalContext';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -22,10 +24,20 @@ const defaultTheme = createTheme({
   },
 });
 
+
 function SignIn() {
 
-
+  const { state, setState } = useRentalContext();
   const navigate = useNavigate();
+
+  const useAuthVerified = (() => {
+    useEffect(() => {
+      if (state.isAuthorized) {
+        navigate('/dashboard');
+      }
+    }, [navigate]);
+    return state.authVerified;
+  });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,15 +46,15 @@ function SignIn() {
         email: data.get('email'),
         password: data.get('password'),
     };
-
+  
     console.log({
         email: data.get('email'),
         password: data.get('password'),
       });
-
+  
     // You can post the data to the desired endpoint here
     try {
-        const response = await fetch('http://localhost:5000/signin', {
+        const response = await fetch('http://localhost:5000/signIn', {
         method: 'POST',
         'credentials': 'include',
         headers: {
@@ -50,18 +62,17 @@ function SignIn() {
         },
         body: JSON.stringify(formData),
         });
-
+  
         const responseData = await response.json(); 
         if (response.ok) {
             console.log('Login successful!');
             console.log(responseData);
-        // Redirect or handle successful login here
-        navigate('/dashboard');
+
+            setState({ type: 'SET_IS_AUTHORIZED', payload: true});
+            navigate('/dashboard');
         } else {
         console.error('Login failed.');
-        // Handle login failure
-
-
+        
         }
     } catch (error) {
         console.error('Error logging in:', error);
@@ -69,7 +80,7 @@ function SignIn() {
     }
   };
 
-  return (
+  return (useAuthVerified() && (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -145,7 +156,7 @@ function SignIn() {
         </Box>
       </Container>
     </ThemeProvider>
-  );
+  ));
 }
 
 export { SignIn };

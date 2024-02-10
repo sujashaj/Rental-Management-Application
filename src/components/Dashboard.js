@@ -1,10 +1,13 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import SortableTable from './SortableTable';
 import { AddRentals } from './AddRentals';
+import SortableTable from './SortableTable';
+import { useNavigate } from 'react-router-dom';
+import { useRentalContext } from '../context/RentalContext';
 
 const defaultTheme = createTheme({
   tabs: {
@@ -13,13 +16,25 @@ const defaultTheme = createTheme({
   },
 });
 
-export default function NavigationPanel() {
+export default function Dashboard() {
+  const { state, setState } = useRentalContext();
+  const navigate = useNavigate();
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  return (
+  const useAuthorized = (() => {
+    useEffect(() => {
+      if (!state.isAuthorized) {
+        navigate('/signIn');
+      }
+    }, [navigate]);
+    return state.authVerified;
+  });
+  
+
+  return (useAuthorized() && (
     <ThemeProvider theme={defaultTheme}>
     <Box sx={{ width: '100%' }}>
       <Tabs
@@ -41,5 +56,5 @@ export default function NavigationPanel() {
 
     </Box>
     </ThemeProvider>
-  );
+  ));
 }

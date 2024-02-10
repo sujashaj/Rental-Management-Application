@@ -1,11 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { RentalProvider } from './context/RentalContext';
-import { AddRentals } from './components/AddRentals';
 import SignUp from './components/SignUp';
 import AppHeader from './components/AppHeader';
 import { SignIn } from './components/SignIn';
-import NavigationPanel from './components/NavigationPanel';
+import Dashboard from './components/Dashboard';
 
 function App() {
 
@@ -16,8 +15,8 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/addrentals" element={<AddRentals />} />
-          <Route path="/dashboard" element={<NavigationPanel />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Navigate replace to="/signIn" />} />
         </Routes>
       </RentalProvider>
     </BrowserRouter>

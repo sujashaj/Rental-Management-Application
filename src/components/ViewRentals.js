@@ -1,4 +1,3 @@
-import Table from 'react-bootstrap/Table';
 import { useRentalContext } from '../context/RentalContext';
 import { SortableTable } from './SortableTable';
 import Container from 'react-bootstrap/Container';
