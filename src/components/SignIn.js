@@ -15,6 +15,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useRentalContext } from '../context/RentalContext';
+import { url } from '../constants';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -54,7 +55,7 @@ function SignIn() {
   
     // You can post the data to the desired endpoint here
     try {
-        const response = await fetch('http://localhost:5000/signIn', {
+        const response = await fetch(`${url}/signIn`, {
         method: 'POST',
         'credentials': 'include',
         headers: {

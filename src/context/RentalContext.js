@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { url } from '../constants';
 
 const RentalContext = createContext();
 
@@ -47,7 +48,7 @@ const RentalProvider = ({ children }) => {
   
   useEffect(() => {
     // Check user authentication status
-    fetch('http://localhost:5000/isAuthorized', {
+    fetch(`${url}/isAuthorized`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

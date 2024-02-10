@@ -1,9 +1,9 @@
 // AddProperty.js
 import React, { useState } from 'react';
 import { useRentalContext } from '../context/RentalContext';
-import '../style/style.css';
 import { Box, Container, TextField, Grid, Button } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { url } from '../constants';
 
 const AddRentals = () => {
   const { state, setState } = useRentalContext();
@@ -46,7 +46,7 @@ const AddRentals = () => {
 
     // You can post the data to the desired endpoint here
     try {
-        const response = await fetch('http://localhost:5000/addRental', {
+        const response = await fetch(`${url}/addRental`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

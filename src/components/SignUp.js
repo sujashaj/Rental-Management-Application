@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useRentalContext } from '../context/RentalContext';
+import { url } from '../constants';
 
 
 const defaultTheme = createTheme({
@@ -40,7 +41,7 @@ const handleSubmit = async (event) => {
 
     // You can post the data to the desired endpoint here
     try {
-        const response = await fetch('http://localhost:5000/signUp', {
+        const response = await fetch(`${url}/signUp`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

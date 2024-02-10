@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { useRentalContext } from '../context/RentalContext';
 import { useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { url } from '../constants';
 
 const defaultTheme = createTheme({
 });
@@ -17,7 +18,7 @@ export default function AppHeader() {
   const handleLogout = async (event) => {
     event.preventDefault();
     try {
-        const response = await fetch('http://localhost:5000/logout', {
+        const response = await fetch(`${url}/logout`, {
         method: 'POST',
         'credentials': 'include',
         headers: {

@@ -1,0 +1,1 @@
+export const url='https://myrentalapp-backend.sujashaj.com'

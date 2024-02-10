@@ -8,6 +8,7 @@ import { AddRentals } from './AddRentals';
 import SortableTable from './SortableTable';
 import { useNavigate } from 'react-router-dom';
 import { useRentalContext } from '../context/RentalContext';
+import { url } from '../constants';
 
 const defaultTheme = createTheme({
   tabs: {
@@ -42,7 +43,7 @@ export default function Dashboard() {
       if (!state.isAuthorized) {
         navigate('/signIn');
       } else {
-        fetch('http://localhost:5000/listRentals', {
+        fetch(`${url}/listRentals`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
