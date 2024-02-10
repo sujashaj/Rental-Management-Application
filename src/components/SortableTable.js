@@ -25,6 +25,8 @@ function createData(id, rentalName, rentalAddress, renterName, rentAmount) {
 }
 
 let rows = [];
+let emptyRows;
+let visibleRows;
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -125,6 +127,11 @@ EnhancedTableHead.propTypes = {
 };
 
 export default function SortableTable() {
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('rentalName');
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
   const useAuthorized = (() => {
     useEffect(() => {
       // Check user authentication status
@@ -142,6 +149,7 @@ export default function SortableTable() {
           return response.json();
         })
         .then(data => {
+          rows = []
           data.forEach((rental, index) => {
             rows.push(createData(index, rental.rental_name, rental.rental_address, rental.renter_name, rental.rent_amount));
           });
@@ -150,14 +158,21 @@ export default function SortableTable() {
           console.error('Error listing rentals', error);
         });
     }, []);
+
+    // Avoid a layout jump when reaching the last page with empty rows.
+    emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+    visibleRows = React.useMemo(() =>
+      stableSort(rows, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage,
+      ),
+    [order, orderBy, page, rowsPerPage],
+    );
+
     return true;
   });
-
-
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -173,19 +188,6 @@ export default function SortableTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage],
-  );
 
   return (useAuthorized() &&
     <Container maxWidth="md">
