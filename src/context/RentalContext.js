@@ -17,7 +17,8 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'ADD_RENTAL':
+    case 'SET_RENTALS':
+      console.log('Setting rentals:', action.payload);
       return {
         ...state,
         rentalProperties: [...state.rentalProperties, action.payload],

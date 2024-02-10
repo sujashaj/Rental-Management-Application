@@ -13,6 +13,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
 import { visuallyHidden } from '@mui/utils';
 import { Container } from '@mui/material';
+import { useRentalContext } from '../context/RentalContext';
 
 function createData(id, rentalName, rentalAddress, renterName, rentAmount) {
   return {
@@ -126,53 +127,28 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-export default function SortableTable() {
+export default function SortableTable(props) {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('rentalName');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const { state, setState } = useRentalContext();
 
-  const useAuthorized = (() => {
-    useEffect(() => {
-      // Check user authentication status
-      fetch('http://localhost:5000/listRentals', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include'
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('List rentals successful!');
-          }
-          return response.json();
-        })
-        .then(data => {
-          rows = []
-          data.forEach((rental, index) => {
-            rows.push(createData(index, rental.rental_name, rental.rental_address, rental.renter_name, rental.rent_amount));
-          });
-        })
-        .catch(error => {
-          console.error('Error listing rentals', error);
-        });
-    }, []);
+  console.log('Rentals props is set to value:', props.rentals);
+  rows = [...props.rentals];
 
-    // Avoid a layout jump when reaching the last page with empty rows.
-    emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  // Avoid a layout jump when reaching the last page with empty rows.
+  emptyRows =
+  page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    visibleRows = React.useMemo(() =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage],
-    );
+  visibleRows = React.useMemo(() =>
+    stableSort(rows, getComparator(order, orderBy)).slice(
+      page * rowsPerPage,
+      page * rowsPerPage + rowsPerPage,
+    ),
+  [order, orderBy, page, rowsPerPage],
+  );
 
-    return true;
-  });
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -189,7 +165,7 @@ export default function SortableTable() {
     setPage(0);
   };
 
-  return (useAuthorized() &&
+  return (
     <Container maxWidth="md">
     <Box sx={{ width: '100%', marginTop: 3 }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -206,7 +182,8 @@ export default function SortableTable() {
               rowCount={rows.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
+              {
+              visibleRows.map((row, index) => {
 
                 return (
                   <TableRow

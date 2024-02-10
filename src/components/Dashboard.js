@@ -16,6 +16,16 @@ const defaultTheme = createTheme({
   },
 });
 
+function createData(id, rentalName, rentalAddress, renterName, rentAmount) {
+  return {
+    id,
+    rentalName,
+    rentalAddress,
+    renterName,
+    rentAmount
+  };
+}
+
 export default function Dashboard() {
   const { state, setState } = useRentalContext();
   const navigate = useNavigate();
@@ -24,12 +34,41 @@ export default function Dashboard() {
     setValue(newValue);
   };
 
+  const [rentals, setRentals] = React.useState([]);
+  let rows = []
+
   const useAuthorized = (() => {
     useEffect(() => {
       if (!state.isAuthorized) {
         navigate('/signIn');
+      } else {
+        fetch('http://localhost:5000/listRentals', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('List rentals successful!');
+              }
+              return response.json();
+            })
+            .then(data => {
+              let newRows = []
+              data.forEach((rental, index) => {
+                  newRows.push(createData(index, rental.rental_name, rental.rental_address, rental.renter_name, rental.rent_amount));
+              });
+              rows = newRows.slice();
+              setRentals(rows);     
+              console.log('Listing rows: ', rows);         
+            })
+            .catch(error => {
+              console.error('Error listing rentals', error);
+            });
       }
-    }, [navigate]);
+    }, [navigate, setRentals]);
     return state.authVerified;
   });
   
@@ -52,7 +91,7 @@ export default function Dashboard() {
       </Tabs>
 
       { value === 0 && (<AddRentals></AddRentals>) }
-      { value === 1 && (<SortableTable></SortableTable>) }
+      { value === 1 && (<SortableTable rentals={rentals}></SortableTable>) }
 
     </Box>
     </ThemeProvider>
