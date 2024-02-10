@@ -49,7 +49,7 @@ const handleSubmit = async (event) => {
 
         const responseData = await response.json(); 
         if (response.ok) {
-            console.log('Login successful!');
+            console.log('Signup successful!');
             console.log(responseData);
         // Redirect or handle successful login here
         } else {

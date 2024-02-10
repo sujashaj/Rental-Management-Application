@@ -24,21 +24,32 @@ function createData(id, rentalName, rentalAddress, renterName, rentAmount) {
   };
 }
 
-const rows = [
-  createData(1, 'Griffis', '2415 Western Ave Apt 507', 'Sachin', 1200),
-  createData(2, 'Griffis', '2415 Western Ave Apt 507', 'Suja', 1200),
-  createData(3, 'Eclair', 'Street Address', 16.0, 24),
-  createData(4, 'Frozen yoghurt', 'Street Address', 6.0, 24),
-  createData(5, 'Gingerbread', 'Street Address', 16.0, 49),
-  createData(6, 'Honeycomb', 'Street Address', 3.2, 87),
-  createData(7, 'Ice cream sandwich', 'Street Address', 9.0, 37),
-  createData(8, 'Jelly Bean', 'Street Address', 0.0, 94),
-  createData(9, 'KitKat', 'Street Address', 26.0, 65),
-  createData(10, 'Lollipop', 'Street Address', 0.2, 98),
-  createData(11, 'Marshmallow', 'Street Address', 0, 81),
-  createData(12, 'Nougat', 'Street Address', 19.0, 9),
-  createData(13, 'Oreo', 'Street Address', 18.0, 63),
-];
+let rows = [];
+
+try {
+  const response = await fetch('http://localhost:5000/listRentals', {
+  method: 'GET',
+  headers: {
+      'Content-Type': 'application/json',
+  },
+  });
+
+  const responseData = await response.json();
+  if (response.ok) {
+    console.log('List rentals successful!');
+    console.log(responseData);
+
+    responseData.forEach((rental, index) => {
+      rows.push(createData(index, rental.rental_name, rental.rental_address, rental.renter_name, rental.rent_amount));
+    });
+
+  } else {
+    console.error('List rentals failed.');
+  }
+} catch (error) {
+    console.error('Error listing rentals', error);
+}
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
