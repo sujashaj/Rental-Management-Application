@@ -1,6 +1,7 @@
 // AddProperty.js
 import React, { useState } from 'react';
 import { useRentalContext } from '../context/RentalContext';
+import '../style/style.css';
 import { Box, Container, TextField, Grid, Button } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -105,6 +106,8 @@ const AddRentals = () => {
                       label="Name of Rental"
                       autoFocus
                       size='small'
+                      value={rentalName}
+                      onChange={(e) => setRentalName(e.target.value)}
               />
           </Grid>
           <Grid item xs={12} sm={12}>
@@ -117,6 +120,8 @@ const AddRentals = () => {
                       label="Address of Rental"
                       autoFocus
                       size='small'
+                      value={rentalAddress}
+                      onChange={(e) => setRentalAddress(e.target.value)}
               />
           </Grid>
           <Grid item xs={12} sm={12}>
@@ -129,6 +134,8 @@ const AddRentals = () => {
                       label="Name of Renter"
                       autoFocus
                       size='small'
+                      value={renterName}
+                      onChange={(e) => setRenterName(e.target.value)}
               />
           </Grid>
           <Grid item xs={12} sm={12}>
@@ -141,6 +148,8 @@ const AddRentals = () => {
                       label="Rent Amount"
                       autoFocus
                       size='small'
+                      value={rentAmount}
+                      onChange={(e) => setRentAmount(e.target.value)}
               />
           </Grid>
         </Grid>
