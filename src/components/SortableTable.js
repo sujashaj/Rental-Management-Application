@@ -173,7 +173,7 @@ export default function SortableTable(props) {
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size='small'
+            size='medium'
           >
             <EnhancedTableHead
               order={order}
@@ -207,7 +207,7 @@ export default function SortableTable(props) {
               {emptyRows > 0 && (
                 <TableRow
                   style={{
-                    height: (33) * emptyRows,
+                    height: (53) * emptyRows,
                   }}
                 >
                   <TableCell colSpan={6} />

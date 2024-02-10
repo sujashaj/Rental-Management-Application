@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AddRentals } from './AddRentals';
 import SortableTable from './SortableTable';
@@ -11,10 +12,6 @@ import { useRentalContext } from '../context/RentalContext';
 import { url } from '../constants';
 
 const defaultTheme = createTheme({
-  tabs: {
-    minHeight: '24px',
-    height: '24px',
-  },
 });
 
 function createData(id, rentalName, rentalAddress, renterName, rentAmount) {
@@ -84,11 +81,20 @@ export default function Dashboard() {
         selectionFollowsFocus
         centered
         role="navigation"
-        sx={{ minHeight: '36px', height: '36px' }}
+        sx = {{marginBottom: 8,
+          minHeight: '50px', height: '50px'
+        }}
       >
-        <Tab label="Add Rentals" sx={{ textTransform: "none", minHeight: '36px', height: '36px' }} />
-        <Tab label="View Rentals" sx={{ textTransform: "none", minHeight: '36px', height: '36px' }} />
-        <Tab label="Get Rental Summary" sx={{ textTransform: "none", minHeight: '36px', height: '36px' }} />
+        <Tab label={<Typography variant="h6">Add Rentals</Typography>}
+        sx={{ 
+          textTransform: "none", 
+        }} />
+        <Tab label={<Typography variant="h6">View Rentals</Typography>} sx={{ 
+          textTransform: "none", 
+        }} />
+        <Tab label={<Typography variant="h6">Get Rental Summary</Typography>} sx={{ 
+          textTransform: "none", 
+        }} />
       </Tabs>
 
       { value === 0 && (<AddRentals></AddRentals>) }

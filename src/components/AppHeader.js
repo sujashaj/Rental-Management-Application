@@ -43,11 +43,17 @@ export default function AppHeader() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <AppBar position="static">
-        <Toolbar variant="dense" >
-          <Typography variant="h6" component="div" sx={{ display:"flex", justifyContent:"center", flexGrow: 100 }}>
+        <Toolbar variant="dense" 
+        disableGutters sx={{ minHeight: 90, height: 90 }}
+        >
+          <Typography variant="h4" component="div" sx={{ display:"flex", justifyContent:"center", flexGrow: 100 }}>
             Rental Management Application
           </Typography>
-          {state.isAuthorized && (<Button color="inherit" onClick={handleLogout}>Logout</Button>)}
+          {state.isAuthorized && (<Button color="inherit" onClick={handleLogout}>
+          <Typography variant="h6">
+            Logout
+          </Typography>
+            </Button>)}
         </Toolbar>
       </AppBar>
     </ThemeProvider>

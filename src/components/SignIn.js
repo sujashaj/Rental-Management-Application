@@ -20,9 +20,6 @@ import { url } from '../constants';
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme({
-  typography: {
-    fontSize: 8,
-  },
 });
 
 
@@ -87,20 +84,21 @@ function SignIn() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 4,
-            px: 12,
+            marginTop: 8,
+            // px: 12,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main', width: 24, height: 24 }}>
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main', 
+          }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
             <TextField
@@ -111,7 +109,6 @@ function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
-              size='small'
             />
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -123,7 +120,6 @@ function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-              size='small'
             />
             </Grid>
             <Grid item xs={12}>
@@ -137,7 +133,7 @@ function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 2, mb: 2 }}
+              sx={{ mt: 3, mb: 2 }}
             >
               Sign In
             </Button>

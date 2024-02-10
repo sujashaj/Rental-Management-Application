@@ -76,18 +76,14 @@ const AddRentals = () => {
 };
 
   const defaultTheme = createTheme({
-    typography: {
-      fontSize: 8,
-    },
   });
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container maxWidth="xs">
+      <Container maxWidth="sm">
       <Box
         component="form"
         sx={{
-          marginTop: 4,
           px: 12,
           display: 'flex',
           flexDirection: 'column',

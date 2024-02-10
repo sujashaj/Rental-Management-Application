@@ -17,9 +17,6 @@ import { url } from '../constants';
 
 
 const defaultTheme = createTheme({
-    typography: {
-      fontSize: 8,
-    },
   });
 
 const handleSubmit = async (event) => {
@@ -85,21 +82,21 @@ export default function SignUp() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 4,
-            px: 12,
+            marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center'
           }} 
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main', width: 24, height: 24 }}>
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main', 
+          }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3}}>
-            <Grid container spacing={1}>
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
@@ -109,7 +106,6 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
-                  size='small'
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -120,7 +116,6 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
-                  size='small'
                 />
               </Grid>
               <Grid item xs={12}>
@@ -131,7 +126,6 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  size='small'
                 />
               </Grid>
               <Grid item xs={12}>
@@ -143,7 +137,6 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  size='small'
                 />
               </Grid>
             </Grid>
