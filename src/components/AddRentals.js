@@ -48,6 +48,7 @@ const AddRentals = () => {
     try {
         const response = await fetch(`${url}/addRental`, {
         method: 'POST',
+        'credentials': 'include',
         headers: {
             'Content-Type': 'application/json',
         },
