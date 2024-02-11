@@ -31,7 +31,7 @@ export default function AppHeader() {
             console.log('Log out successful!');
             console.log(responseData);
             setState({ type: 'SET_IS_AUTHORIZED', payload: false});
-            navigate('/signIn');
+            navigate('/signin');
         } else {
         console.error('Log out failed.');
         }

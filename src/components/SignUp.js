@@ -38,7 +38,7 @@ const handleSubmit = async (event) => {
 
     // You can post the data to the desired endpoint here
     try {
-        const response = await fetch(`${url}/signUp`, {
+        const response = await fetch(`${url}/signup`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/signIn" variant="body2">
+                <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

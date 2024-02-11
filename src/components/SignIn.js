@@ -52,7 +52,7 @@ function SignIn() {
   
     // You can post the data to the desired endpoint here
     try {
-        const response = await fetch(`${url}/signIn`, {
+        const response = await fetch(`${url}/signin`, {
         method: 'POST',
         'credentials': 'include',
         headers: {
@@ -144,7 +144,7 @@ function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signUp" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

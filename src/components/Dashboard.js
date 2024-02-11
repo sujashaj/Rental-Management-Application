@@ -38,7 +38,7 @@ export default function Dashboard() {
   const useAuthorized = (() => {
     useEffect(() => {
       if (!state.isAuthorized) {
-        navigate('/signIn');
+        navigate('signin');
       } else {
         fetch(`${url}/listRentals`, {
             method: 'GET',

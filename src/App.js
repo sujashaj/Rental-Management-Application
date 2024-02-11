@@ -16,7 +16,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/" element={<Navigate replace to="/signIn" />} />
+          <Route path="/" element={<Navigate replace to="/signin" />} />
         </Routes>
       </RentalProvider>
     </BrowserRouter>

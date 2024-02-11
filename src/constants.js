@@ -1,1 +1,1 @@
-export const url='https://myrentalapp-backend.sujashaj.com'
+export const url='https://rentalapp-backend.sujashaj.com'
