@@ -92,9 +92,6 @@ export default function Dashboard() {
         <Tab label={<Typography variant="h6">View Rentals</Typography>} sx={{ 
           textTransform: "none", 
         }} />
-        <Tab label={<Typography variant="h6">Get Rental Summary</Typography>} sx={{ 
-          textTransform: "none", 
-        }} />
       </Tabs>
 
       { value === 0 && (<AddRentals></AddRentals>) }
