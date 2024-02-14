@@ -17,6 +17,8 @@ The application consists of the following components:
    - Clicking on the link from the email triggers a process to check if the token in the link is valid.
    - If the user is successfully identified, the system proceeds with access authorization.
 
+  ![SignUp](https://shorturl.at/quAQ5)
+
 ### 2. Sign In
 
    - Existing users can log in using their email and password.
