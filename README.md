@@ -24,6 +24,8 @@ The application consists of the following components:
    - Existing users can log in using their email and password.
    - Upon successful login, users are redirected to the dashboard.
 
+   ![SignIn](https://shorturl.at/syAMS)
+
 ### 3. Add Rentals
 
    - Authenticated users can add new rental properties.
@@ -31,10 +33,14 @@ The application consists of the following components:
    - Required details include the rental name, address, renter name, and rent amount.
    - After adding a rental, it appears in the list of rentals on the dashboard.
 
+   ![AddRentals](https://shorturl.at/gtKN7)
+
 ### 4. View Rentals
 
    - Users can switch to the "View Rentals" tab on the dashboard to see all existing rental properties listed in a sortable table format.
    - Allows users to view all rental properties added to the system.
+
+   ![ViewRentals](https://shorturl.at/kltIS)
 
 ### 5. Logout Option
 

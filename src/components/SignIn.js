@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,15 +17,14 @@ import { useNavigate } from 'react-router-dom';
 import { useRentalContext } from '../context/RentalContext';
 import { url } from '../constants';
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme({
-});
-
-
-function SignIn() {
-
+const SignIn = () => {
   const { state, setState } = useRentalContext();
+  const [EmailAddress, setEmailAddress] = useState('');
+  const [Password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const defaultTheme = createTheme({});
+
   const navigate = useNavigate();
 
   const useAuthVerified = (() => {
@@ -41,40 +40,38 @@ function SignIn() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const formData = {
-        email: data.get('email'),
-        password: data.get('password'),
+      email: data.get('email'),
+      password: data.get('password'),
     };
-  
-    console.log({
-        email: data.get('email'),
-        password: data.get('password'),
-      });
-  
-    // You can post the data to the desired endpoint here
+
     try {
-        const response = await fetch(`${url}/signin`, {
+      const response = await fetch(`${url}/signin`, {
         method: 'POST',
         'credentials': 'include',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-        });
-  
-        const responseData = await response.json(); 
-        if (response.ok) {
-            console.log('Login successful!');
-            console.log(responseData);
+      });
 
-            setState({ type: 'SET_IS_AUTHORIZED', payload: true});
-            navigate('/dashboard');
-        } else {
+      const responseData = await response.json();
+      if (response.ok) {
+        console.log('Login successful!');
+        console.log(responseData);
+
+        setState({ type: 'SET_IS_AUTHORIZED', payload: true });
+        navigate('/dashboard');
+      } else {
         console.error('Login failed.');
-        
-        }
+        // Clearing the email and password fields
+        setEmailAddress('');
+        setPassword('');
+        // Displaying error message
+        setErrorMessage('Incorrect username or password');
+      }
     } catch (error) {
-        console.error('Error logging in:', error);
-        // Handle error
+      console.error('Error logging in:', error);
+      // Handle error
     }
   };
 
@@ -91,7 +88,7 @@ function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main', 
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main',
           }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -99,36 +96,45 @@ function SignIn() {
             Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <Grid container spacing={1}>
+            <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
-            <TextField
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  value={EmailAddress}
+                  onChange={(e) => setEmailAddress(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  value={Password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={12}>
-            <TextField
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            </Grid>
-            <Grid item xs={12}>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            </Grid>
-            </Grid>
+            {errorMessage && (
+              <Typography variant="body2" color="error" align="center" sx={{ mt: 2 }}>
+                {errorMessage}
+              </Typography>
+            )}
             <Button
               type="submit"
               fullWidth
