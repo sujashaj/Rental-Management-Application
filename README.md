@@ -17,14 +17,14 @@ The application consists of the following components:
    - Clicking on the link from the email triggers a process to check if the token in the link is valid.
    - If the user is successfully identified, the system proceeds with access authorization.
 
-  ![SignUp](https://shorturl.at/acvxP)
+  ![SignUp](https://github.com/sujashaj/rental-management-application/blob/resources/images/SignUp%20.png)
 
 ### 2. Sign In
 
    - Existing users can log in using their email and password.
    - Upon successful login, users are redirected to the dashboard.
 
-   ![SignIn](https://shorturl.at/chkzV)
+   ![SignIn](https://github.com/sujashaj/rental-management-application/blob/resources/images/SignIn.png)
 
 ### 3. Add Rentals
 
@@ -33,14 +33,14 @@ The application consists of the following components:
    - Required details include the rental name, address, renter name, and rent amount.
    - After adding a rental, it appears in the list of rentals on the dashboard.
 
-   ![AddRentals](https://shorturl.at/agmC3)
+   ![AddRentals](https://github.com/sujashaj/rental-management-application/blob/resources/images/Add%20Rentals.png)
 
 ### 4. View Rentals
 
    - Users can switch to the "View Rentals" tab on the dashboard to see all existing rental properties listed in a sortable table format.
    - Allows users to view all rental properties added to the system.
 
-   ![ViewRentals](https://shorturl.at/kltIS)
+   ![ViewRentals](https://github.com/sujashaj/rental-management-application/blob/resources/images/View%20Rentals.png)
 
 ### 5. Logout Option
 
