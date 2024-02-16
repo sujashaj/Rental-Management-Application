@@ -17,14 +17,14 @@ The application consists of the following components:
    - Clicking on the link from the email triggers a process to check if the token in the link is valid.
    - If the user is successfully identified, the system proceeds with access authorization.
 
-  ![SignUp](https://shorturl.at/quAQ5)
+  ![SignUp](https://shorturl.at/acvxP)
 
 ### 2. Sign In
 
    - Existing users can log in using their email and password.
    - Upon successful login, users are redirected to the dashboard.
 
-   ![SignIn](https://shorturl.at/syAMS)
+   ![SignIn](https://shorturl.at/chkzV)
 
 ### 3. Add Rentals
 
@@ -33,7 +33,7 @@ The application consists of the following components:
    - Required details include the rental name, address, renter name, and rent amount.
    - After adding a rental, it appears in the list of rentals on the dashboard.
 
-   ![AddRentals](https://shorturl.at/gtKN7)
+   ![AddRentals](https://shorturl.at/agmC3)
 
 ### 4. View Rentals
 
