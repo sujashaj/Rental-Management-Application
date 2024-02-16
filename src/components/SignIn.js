@@ -9,6 +9,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -38,6 +39,7 @@ const SignIn = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setErrorMessage('');
     const data = new FormData(event.currentTarget);
     const formData = {
       email: data.get('email'),
@@ -130,11 +132,6 @@ const SignIn = () => {
                 />
               </Grid>
             </Grid>
-            {errorMessage && (
-              <Typography variant="body2" color="error" align="center" sx={{ mt: 2 }}>
-                {errorMessage}
-              </Typography>
-            )}
             <Button
               type="submit"
               fullWidth
@@ -155,6 +152,12 @@ const SignIn = () => {
                 </Link>
               </Grid>
             </Grid>
+            {errorMessage && (
+              <Alert variant="outlined" severity="error" sx={{ mt: 6 }} 
+                  onClose={() => {setErrorMessage('')}}>
+                {errorMessage}
+              </Alert>
+            )}
           </Box>
         </Box>
       </Container>

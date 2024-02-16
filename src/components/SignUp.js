@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -19,8 +20,18 @@ import { url } from '../constants';
 const defaultTheme = createTheme({
   });
 
-const handleSubmit = async (event) => {
+export default function SignUp() {
+  const { state, setState } = useRentalContext();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setSuccessMessage('');
     const data = new FormData(event.currentTarget);
     const formData = {
         firstName: data.get('firstName'),
@@ -36,7 +47,6 @@ const handleSubmit = async (event) => {
       password: data.get('password')
       });
 
-    // You can post the data to the desired endpoint here
     try {
         const response = await fetch(`${url}/signup`, {
         method: 'POST',
@@ -48,22 +58,21 @@ const handleSubmit = async (event) => {
 
         const responseData = await response.json(); 
         if (response.ok) {
-            console.log('Sign up successful!');
-            console.log(responseData);
-        // Redirect or handle successful login here
+          console.log('Sign up successful!');
+          console.log(responseData);
+          setSuccessMessage('Verification email sent. Please verify your email address to sign in');
         } else {
-        console.error('Login failed.');
-        // Handle login failure
+          console.error('Login failed.');
         }
     } catch (error) {
-        console.error('Error logging in:', error);
-        // Handle error
+      console.error('Error logging in:', error);
+    } finally {
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPassword('');
     }
 };
-
-export default function SignUp() {
-  const { state, setState } = useRentalContext();
-  const navigate = useNavigate();
 
   const useAuthVerified = (() => {
     useEffect(() => {
@@ -106,6 +115,8 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -116,6 +127,8 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -126,6 +139,8 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -137,6 +152,8 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
             </Grid>
@@ -156,6 +173,12 @@ export default function SignUp() {
               </Grid>
             </Grid>
           </Box>
+          {successMessage && (
+              <Alert variant="outlined" severity="success" sx={{ mt: 6 }} 
+                  onClose={() => {setSuccessMessage('')}}>
+                {successMessage}
+              </Alert>
+            )}
         </Box>
       </Container>
     </ThemeProvider>
