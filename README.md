@@ -67,3 +67,4 @@ The application consists of the following components:
 - SQLAlchemy - An ORM (Object-Relational Mapping) library for Python. SQLAlchemy is used for database interactions, allowing the application to communicate with the SQLite database.
 - Mailjet and JWT - When a user signs up, a verification email is sent to the user's email address containing a link with a JWT token. The system sends email via Mailjet to the user's email address.
 
+
